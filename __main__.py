@@ -3,9 +3,7 @@
 # 16 Marzo 2018
 
 import cProfile
-from random_graph import random_graph
 from description_file_reader import read_description
-from Query import Query
 
 
 ########################################################################################################################
@@ -16,16 +14,16 @@ def muestra_ayuda():
     print(" El comando 'c' permite cambiar fichero de referencia")
     print(" Este fichero debe seguir el siguiente formato:")
     # TODO: Especificar formato de los ficheros de entradaa
-    print(" El comando 'q' permite introducir una query al sistema")
-    print(" El comando 'r' permite crear un grafo aleatorio, especificandolo de la siguiente manera:")
-    print(" El comando 'rf' permite crear un grafo aleatorio y guardarlo en un fichero")
-    print(" La query debe tener el siguiente formato:")
-    # TODO: Especificar el forma de las querys
+    print(" El comando 'o1' ordena el vector con el criterio 1")
+    print(" El comando 'o2' ordena el vector con el criterio 2")
+    print(" El comando 'o3' ordena el vector con el criterio 3")
+    print(" El comando 'r' permite crear un vector aleatorio, especificandolo de la siguiente manera:")
+    #TODO: Especificcar formato
+    print(" El comando 'rf' permite crear un vector aleatorio y guardarlo en un fichero")
 
 
 """ Funcion que pide al usuario el nombre de un fichero y lo intenta interpretar. Si el fichero no es valido lo vuelve
     a intentar. """
-
 
 def leer_nombre_fichero():
     correcto = False
@@ -41,24 +39,7 @@ def leer_nombre_fichero():
     return configuracion
 
 
-""" Funcion que pide al usuario una query. Si la query no es valida lo vuelve a intentar. """
-
-
-def leer_query():
-    correcto = False
-    while not correcto:
-        lectura_teclado = raw_input("Introduce query: ")
-
-        try:
-            query = Query(lectura_teclado)
-            correcto = True
-        except:
-            print("Query en formato incorrecto")
-
-    return query
-
-
-""" Funcion que pide al usuario la descripcion del grafo. Si la descripcion no es valida lo vuelve a intentar. """
+""" Funcion que pide al usuario la descripcion del vector. Si la descripcion no es valida lo vuelve a intentar. """
 
 
 def leer_descripcion(conFichero):
@@ -91,10 +72,11 @@ configuracion = leer_nombre_fichero()
 
 print("Introduce un comando:")
 print("c - cambiar fichero de referencia")
-print("q - realizar una query")
-print("v - visualizar el fichero de referencia")
-print("r - crear un grafo aleatorio en memoria")
-print("rf - crear un grafo aleatorio y cargarlo en memoria")
+print("o1 - ordena el vector con el criterio 1")
+print("o2 - ordena el vector con el criterio 2")
+print("o3 - ordena el vector con el criterio 3")
+print("r - crear un vector aleatorio en memoria")
+print("rf - crear un vector aleatorio y cargarlo en memoria")
 print("h - ayuda")
 
 while True:
@@ -103,18 +85,20 @@ while True:
 
     if (comando == "c"):
         configuracion = leer_nombre_fichero()
-    elif (comando == "q"):
-        query = leer_query()
-        cProfile.run('configuracion.do(query)')
-        infectado = configuracion.do(query)
-        if infectado:
-            print("Nodo infectado")
-        else:
-            print("Nodo no infectado")
+    elif (comando == "o1"):
+        cProfile.run('configuracion.sort1()')
+        vector = configuracion.sort1()
+        #Comprobar ordenado
+    elif (comando == "o2"):
+        cProfile.run('configuracion.sort2()')
+        vector = configuracion.sorter2()
+        #Comprobar ordenado
+    elif (comando == "o3"):
+        cProfile.run('configuracion.sort3()')
+        vector = configuracion.sort3()
+        #Comprobar ordenado
     elif (comando == "h"):
         muestra_ayuda()
-    elif (comando == "v"):
-        configuracion.dibujar()
     elif (comando == "rf"):
         configuracion = leer_descripcion(True)
     elif (comando == "r"):
