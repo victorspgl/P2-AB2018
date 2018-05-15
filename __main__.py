@@ -91,7 +91,7 @@ while True:
         #Comprobar ordenado
     elif (comando == "o2"):
         cProfile.run('configuracion.sort2()')
-        vector = configuracion.sorter2()
+        vector = configuracion.sort2()
         #Comprobar ordenado
     elif (comando == "o3"):
         cProfile.run('configuracion.sort3()')

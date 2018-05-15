@@ -38,65 +38,76 @@ class Vector:
         QuickSort eligiendo como pivote el elemento mas a la izquierda del vector.
     """
     def sort1(self):
-        self.sort1RE(0, self.size)
+        self.sort1RE(0, self.size-1)
 
     def sort1RE(self, izq, dch):
-        if izq > dch:
+        if izq >= dch:
             return
         else:
             pivote_index = izq
             pivote_index = self.particion(izq, dch, pivote_index)
-            self.sort1RE(izq, pivote_index)
-            self.sort1RE(pivote_index, dch)
+            self.sort1RE(izq, pivote_index - 1)
+            self.sort1RE(pivote_index + 1, dch)
             return
 
     """
         QuickSort eligiendo la mediana como pivote
     """
     def sort2(self):
-        self.sort2RE(0, self.size)
+        self.sort2RE(0, self.size - 1)
 
     def sort2RE(self, izq, dch):
-        if izq > dch:
+        if izq >= dch:
             return
         else:
             pivote_index = self.median(self.elements, izq, dch)
             pivote_index = self.particion(izq, dch, pivote_index)
-            self.sort2RE(izq, pivote_index)
-            self.sort2RE(pivote_index, dch)
+            self.sort2RE(izq, pivote_index - 1)
+            self.sort2RE(pivote_index + 1, dch)
             return
 
     def median(self, lista, izq, dch):
         num_elem = dch - izq
         if num_elem < 5:
             return self.insertionSort(lista, izq, dch)
-        lista = []
         new_num_elem = 0
+        new_lista = []
         for iter in range(0, num_elem, 5):
             subDch = iter + 4
             if subDch > num_elem:
                 subDch = num_elem
 
             median5 = self.insertionSort(lista, iter, subDch)
-            lista.append(median5)
+            new_lista.append(median5)
             new_num_elem = new_num_elem + 1
-        self.median(lista, 0, new_num_elem)
+        return self.median(new_lista, 0, new_num_elem)
 
     def insertionSort(self, lista, izq, dch):
+        i = 1
+        while i < (dch - izq):
+            j = i
+            while j > 0 and lista[j - 1] > lista[j]:
+                aux = lista[j - 1]
+                lista[j - 1] = lista [j]
+                lista[j] = aux
+                j = j - 1
+            i = i + 1
+        median_index = int((dch - izq)/2)
+        return lista[median_index]
 
 
     """
        QuickSort eligiendo como pivote un elemento aleatorio del vector 
     """
     def sort3(self):
-        self.sort3RE(0, self.size)
+        self.sort3RE(0, self.size - 1)
 
     def sort3RE(self, izq, dch):
-        if izq > dch:
+        if izq >= dch:
             return
         else:
-            pivote_index = random.uniform(izq, dch)
+            pivote_index = int(random.uniform(izq, dch));
             self.particion(izq, dch, pivote_index)
-            self.sort3RE(izq, pivote_index)
-            self.sort3RE(pivote_index, dch)
+            self.sort3RE(izq, pivote_index - 1)
+            self.sort3RE(pivote_index + 1, dch)
             return
