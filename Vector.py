@@ -106,8 +106,7 @@ class Vector:
         if izq >= dch:
             return
         else:
-            pivote_index = int(random.uniform(izq, dch));
+            pivote_index = int(random.uniform(izq, dch))
             self.particion(izq, dch, pivote_index)
             self.sort3RE(izq, pivote_index - 1)
             self.sort3RE(pivote_index + 1, dch)
-            return
