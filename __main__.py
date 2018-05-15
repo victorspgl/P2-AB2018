@@ -63,6 +63,13 @@ def leer_descripcion(conFichero):
 
     return configuracion
 
+def comprobar(vector):
+    correcto = True
+    iter = 0
+    while correcto == True and iter < (len(vector) - 1):
+        correcto = vector[iter] < vector[iter + 1]
+        iter = iter + 1
+    return correcto
 
 ########################################################################################################################
 ##########################################         MAIN         ########################################################
@@ -88,15 +95,27 @@ while True:
     elif (comando == "o1"):
         cProfile.run('configuracion.sort1()')
         vector = configuracion.sort1()
-        #Comprobar ordenado
+        correcto = comprobar(vector)
+        if correcto:
+            print(" -> Vector ordenado correctamente ")
+        else:
+            print(" -> Vector ordenado incorrectamente ")
     elif (comando == "o2"):
         cProfile.run('configuracion.sort2()')
         vector = configuracion.sort2()
-        #Comprobar ordenado
+        correcto = comprobar(vector)
+        if correcto:
+            print(" -> Vector ordenado correctamente ")
+        else:
+            print(" -> Vector ordenado incorrectamente ")
     elif (comando == "o3"):
         cProfile.run('configuracion.sort3()')
         vector = configuracion.sort3()
-        #Comprobar ordenado
+        correcto = comprobar(vector)
+        if correcto:
+            print(" -> Vector ordenado correctamente ")
+        else:
+            print(" -> Vector ordenado incorrectamente ")
     elif (comando == "h"):
         muestra_ayuda()
     elif (comando == "rf"):

@@ -38,33 +38,39 @@ class Vector:
         QuickSort eligiendo como pivote el elemento mas a la izquierda del vector.
     """
     def sort1(self):
-        self.sort1RE(0, self.size-1)
+        lista_aux = self.elements
+        resultado = self.sort1RE(0, self.size-1)
+        self.elements = lista_aux
+        return resultado
 
     def sort1RE(self, izq, dch):
         if izq >= dch:
-            return
+            return self.elements
         else:
             pivote_index = izq
             pivote_index = self.particion(izq, dch, pivote_index)
             self.sort1RE(izq, pivote_index - 1)
             self.sort1RE(pivote_index + 1, dch)
-            return
+            return self.elements
 
     """
         QuickSort eligiendo la mediana como pivote
     """
     def sort2(self):
-        self.sort2RE(0, self.size - 1)
+        lista_aux = self.elements
+        resultado = self.sort2RE(0, self.size - 1)
+        self.elements = lista_aux
+        return resultado
 
     def sort2RE(self, izq, dch):
         if izq >= dch:
-            return
+            return self.elements
         else:
             pivote_index = self.median(self.elements, izq, dch)
             pivote_index = self.particion(izq, dch, pivote_index)
             self.sort2RE(izq, pivote_index - 1)
             self.sort2RE(pivote_index + 1, dch)
-            return
+            return self.elements
 
     def median(self, lista, izq, dch):
         num_elem = dch - izq
@@ -100,13 +106,17 @@ class Vector:
        QuickSort eligiendo como pivote un elemento aleatorio del vector 
     """
     def sort3(self):
-        self.sort3RE(0, self.size - 1)
+        lista_aux = self.elements
+        resultado = self.sort3RE(0, self.size - 1)
+        self.elements = lista_aux
+        return resultado
 
     def sort3RE(self, izq, dch):
         if izq >= dch:
-            return
+            return self.elements
         else:
             pivote_index = int(random.uniform(izq, dch))
             self.particion(izq, dch, pivote_index)
             self.sort3RE(izq, pivote_index - 1)
             self.sort3RE(pivote_index + 1, dch)
+            return self.elements
