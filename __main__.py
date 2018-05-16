@@ -1,10 +1,10 @@
 # Programa Principal. Lectura de ficheros y querys
 # Javier Corbalan y Victor Soria
-# 16 Marzo 2018
+# 16 Mayor 2018
 
 import cProfile
 from description_file_reader import read_description
-
+from random_vector import random_vector
 
 ########################################################################################################################
 #############################         Funciones de entrada de comandos         #########################################
@@ -45,16 +45,16 @@ def leer_nombre_fichero():
 def leer_descripcion(conFichero):
     correcto = False
     while not correcto:
-        string = raw_input("Introduce numero de vertices, aristas y el tiempo de comunicacion maximo: ")
+        string = raw_input("Introduce numero de elementos y el tamanyo maximo de cada elemento: ")
 
         try:
-            num_vertices, num_aristas, max_timestamp = [int(i) for i in string.split(' ')]
+            num_elementos, max = [int(i) for i in string.split(' ')]
         except:
             print("Descripcion en formato incorrecto")
             continue
 
         try:
-            configuracion = random_graph(conFichero, num_vertices, num_aristas, max_timestamp)
+            configuracion = random_vector(conFichero, num_elementos, max)
         except:
             print("Error al crear el fichero")
             continue
@@ -63,11 +63,14 @@ def leer_descripcion(conFichero):
 
     return configuracion
 
+""" Funcion que comprueba la ordenacion del vector """
+
+
 def comprobar(vector):
     correcto = True
     iter = 0
     while correcto == True and iter < (len(vector) - 1):
-        correcto = vector[iter] < vector[iter + 1]
+        correcto = vector[iter] <= vector[iter + 1]
         iter = iter + 1
     return correcto
 

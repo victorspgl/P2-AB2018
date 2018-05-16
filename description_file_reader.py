@@ -1,6 +1,6 @@
-# Lector de ficheros de descripcion del grafo
+# Lector de ficheros de descripcion de vectores
 # Javier Corbalan y Victor Soria
-# 15 Marzo 2018
+# 15 Mayo 2018
 
 from Vector import Vector
 
