@@ -72,19 +72,19 @@ class Vector:
             self.sort2RE(pivote_index + 1, dch)
             return self.elements
 
-    def select(self, left, right, n):
+    def select(self, izq, dch, n):
         while True:
-            if left == right:
-                return left
+            if izq == dch:
+                return izq
 
-            pivotIndex = self.median(left, right)
-            pivotIndex = self.particion(left, right, pivotIndex)
+            pivotIndex = self.median(izq, dch)
+            pivotIndex = self.particion(izq, dch, pivotIndex)
             if n == pivotIndex:
                 return n
             elif n < pivotIndex:
-                right = pivotIndex - 1
+                dch = pivotIndex - 1
             else:
-                left = pivotIndex + 1
+                izq = pivotIndex + 1
 
 
     def median(self, izq, dch):
@@ -109,7 +109,7 @@ class Vector:
             j = i + izq
             while j > 0 and self.elements[j - 1] > self.elements[j]:
                 aux = self.elements[j - 1]
-                self.elements[j - 1] = self.elements [j]
+                self.elements[j - 1] = self.elements[j]
                 self.elements[j] = aux
                 j = j - 1
             i = i + 1
