@@ -5,6 +5,9 @@
 import cProfile
 from description_file_reader import read_description
 from random_vector import random_vector
+from random_vector import worst_random_vector
+
+import sys
 
 ########################################################################################################################
 #############################         Funciones de entrada de comandos         #########################################
@@ -13,13 +16,17 @@ from random_vector import random_vector
 def muestra_ayuda():
     print(" El comando 'c' permite cambiar fichero de referencia")
     print(" Este fichero debe seguir el siguiente formato:")
-    # TODO: Especificar formato de los ficheros de entradaa
-    print(" El comando 'o1' ordena el vector con el criterio 1")
-    print(" El comando 'o2' ordena el vector con el criterio 2")
-    print(" El comando 'o3' ordena el vector con el criterio 3")
+    print("    El fichero debe contener en la primera linea el numero de elementos del vector")
+    print("    en la segunda linea debe describirse cada elemento del vector como un entero separado del siguiente elemento")
+    print("    Ver Ejemplo vector_basico.txt")
+    print(" El comando 'o1' ordena el vector con el criterio 1, el pivote es el primer elemento del vector")
+    print(" El comando 'o2' ordena el vector con el criterio 2, el pivote es la mediana")
+    print(" El comando 'o3' ordena el vector con el criterio 3, el pivote es un elemento aleatorio del vector")
     print(" El comando 'r' permite crear un vector aleatorio, especificandolo de la siguiente manera:")
-    #TODO: Especificcar formato
+    print("    numero_de_elementos_del_vector, tamanyo maximo de cada elemento")
     print(" El comando 'rf' permite crear un vector aleatorio y guardarlo en un fichero")
+    print(" El comando 'wr' permite crear un vector ordenado")
+    print(" El comando 'wrf' permite crear un vector ordenado y guardarlo en un fichero")
 
 
 """ Funcion que pide al usuario el nombre de un fichero y lo intenta interpretar. Si el fichero no es valido lo vuelve
@@ -42,7 +49,7 @@ def leer_nombre_fichero():
 """ Funcion que pide al usuario la descripcion del vector. Si la descripcion no es valida lo vuelve a intentar. """
 
 
-def leer_descripcion(conFichero):
+def leer_descripcion(conFichero, ordenado):
     correcto = False
     while not correcto:
         string = raw_input("Introduce numero de elementos y el tamanyo maximo de cada elemento: ")
@@ -54,7 +61,10 @@ def leer_descripcion(conFichero):
             continue
 
         try:
-            configuracion = random_vector(conFichero, num_elementos, max)
+            if ordenado:
+                configuracion = worst_random_vector(conFichero, num_elementos, max)
+            else:
+               configuracion = random_vector(conFichero, num_elementos, max)
         except:
             print("Error al crear el fichero")
             continue
@@ -78,7 +88,8 @@ def comprobar(vector):
 ##########################################         MAIN         ########################################################
 ########################################################################################################################
 
-configuracion = leer_nombre_fichero()
+sys.setrecursionlimit(150000)
+fichero_referencia = False
 
 print("Introduce un comando:")
 print("c - cambiar fichero de referencia")
@@ -86,7 +97,9 @@ print("o1 - ordena el vector con el criterio 1")
 print("o2 - ordena el vector con el criterio 2")
 print("o3 - ordena el vector con el criterio 3")
 print("r - crear un vector aleatorio en memoria")
-print("rf - crear un vector aleatorio y cargarlo en memoria")
+print("rf - crear un vector aleatorio en un fichero y cargarlo en memoria")
+print("wr - crear un vector ordenado en memoria")
+print("wrf - crear un vector ordenado en un fichero y cargarlo en memoria")
 print("h - ayuda")
 
 while True:
@@ -95,7 +108,11 @@ while True:
 
     if (comando == "c"):
         configuracion = leer_nombre_fichero()
+        fichero_referencia = True
     elif (comando == "o1"):
+        if fichero_referencia == False:
+            print("No existe un vector para ordenar, utiliza c para introducirlo mediante fichero o r para generar uno aleatorio")
+            continue
         cProfile.run('configuracion.sort1()')
         vector = configuracion.sort1()
         correcto = comprobar(vector)
@@ -104,6 +121,9 @@ while True:
         else:
             print(" -> Vector ordenado incorrectamente ")
     elif (comando == "o2"):
+        if fichero_referencia == False:
+            print("No existe un vector para ordenar, utiliza c para introducirlo mediante fichero o r para generar uno aleatorio")
+            continue
         cProfile.run('configuracion.sort2()')
         vector = configuracion.sort2()
         correcto = comprobar(vector)
@@ -112,6 +132,9 @@ while True:
         else:
             print(" -> Vector ordenado incorrectamente ")
     elif (comando == "o3"):
+        if fichero_referencia == False:
+            print("No existe un vector para ordenar, utiliza c para introducirlo mediante fichero o r para generar uno aleatorio")
+            continue
         cProfile.run('configuracion.sort3()')
         vector = configuracion.sort3()
         correcto = comprobar(vector)
@@ -122,9 +145,17 @@ while True:
     elif (comando == "h"):
         muestra_ayuda()
     elif (comando == "rf"):
-        configuracion = leer_descripcion(True)
+        configuracion = leer_descripcion(True, False)
+        fichero_referencia = True
     elif (comando == "r"):
-        configuracion = leer_descripcion(False)
+        configuracion = leer_descripcion(False, False)
+        fichero_referencia = True
+    elif (comando == "wrf"):
+        configuracion = leer_descripcion(True, True)
+        fichero_referencia = True
+    elif (comando == "wr"):
+        configuracion = leer_descripcion(False, True)
+        fichero_referencia = True
     else:
         print("Comando incorrecto")
         muestra_ayuda()
