@@ -23,7 +23,7 @@ class Vector:
         self.elements[pivoteIndex] = self.elements[dch]
         self.elements[dch] = pivote
         storeIndex =  izq
-        for i in range(izq, dch):
+        for i in range(izq, dch+1):
             if self.elements[i] < pivote:
                 aux = self.elements[storeIndex]
                 self.elements[storeIndex] = self.elements[i]
@@ -66,40 +66,54 @@ class Vector:
         if izq >= dch:
             return self.elements
         else:
-            pivote_index = self.median(self.elements, izq, dch)
+            pivote_index = self.select(izq, dch, int((dch+izq)/2))
             pivote_index = self.particion(izq, dch, pivote_index)
             self.sort2RE(izq, pivote_index - 1)
             self.sort2RE(pivote_index + 1, dch)
             return self.elements
 
-    def median(self, lista, izq, dch):
+    def select(self, left, right, n):
+        while True:
+            if left == right:
+                return left
+
+            pivotIndex = self.median(left, right)
+            pivotIndex = self.particion(left, right, pivotIndex)
+            if n == pivotIndex:
+                return n
+            elif n < pivotIndex:
+                right = pivotIndex - 1
+            else:
+                left = pivotIndex + 1
+
+
+    def median(self, izq, dch):
         num_elem = dch - izq
         if num_elem < 5:
-            return self.insertionSort(lista, izq, dch)
-        new_num_elem = 0
-        new_lista = []
-        for iter in range(0, num_elem, 5):
+            return self.insertionSort(izq, dch)
+        for iter in range(izq, dch, 5):
             subDch = iter + 4
-            if subDch > num_elem:
-                subDch = num_elem
+            if subDch > dch:
+                subDch = dch
 
-            median5 = self.insertionSort(lista, iter, subDch)
-            new_lista.append(median5)
-            new_num_elem = new_num_elem + 1
-        return self.median(new_lista, 0, new_num_elem)
+            median5 = self.insertionSort(iter, subDch)
+            aux = self.elements[median5]
+            self.elements[median5] = self.elements[izq + int((iter - izq)/5)]
+            self.elements[izq + int((iter - izq)/5)] = aux
 
-    def insertionSort(self, lista, izq, dch):
+        return self.select(izq, izq + int((dch - izq) / 5), izq + int((dch - izq) / 10))
+
+    def insertionSort(self, izq, dch):
         i = 1
-        while i < (dch - izq):
-            j = i
-            while j > 0 and lista[j - 1] > lista[j]:
-                aux = lista[j - 1]
-                lista[j - 1] = lista [j]
-                lista[j] = aux
+        while i < (dch - izq + 1):
+            j = i + izq
+            while j > 0 and self.elements[j - 1] > self.elements[j]:
+                aux = self.elements[j - 1]
+                self.elements[j - 1] = self.elements [j]
+                self.elements[j] = aux
                 j = j - 1
             i = i + 1
-        median_index = int((dch - izq)/2)
-        return lista[median_index]
+        return int((dch + izq)/2)
 
 
     """
@@ -116,7 +130,7 @@ class Vector:
             return self.elements
         else:
             pivote_index = int(random.uniform(izq, dch))
-            self.particion(izq, dch, pivote_index)
+            pivote_index = self.particion(izq, dch, self.elements[pivote_index])
             self.sort3RE(izq, pivote_index - 1)
             self.sort3RE(pivote_index + 1, dch)
             return self.elements
