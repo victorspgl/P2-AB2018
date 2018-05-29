@@ -205,20 +205,20 @@ while True:
             vector = conf.sort1()
             end = time.time()
             tiempos_alg1.append(end-start)
-            sum1 = sum + end-start
+            sum1 = sum1 + (end-start)
 
             start = time.time()
             vector = conf.sort2()
             end = time.time()
             tiempos_alg2.append(end-start)
-            sum2 = sum + end-start
+            sum2 = sum2 + (end-start)
 
 
             start = time.time()
             vector = conf.sort3()
             end = time.time()
             tiempos_alg3.append(end-start)
-            sum3 = sum + end-start
+            sum3 = sum3 + (end-start)
 
         cadena = "Tiempos por vector "
         cadena1 = "Metodo 1:          "
