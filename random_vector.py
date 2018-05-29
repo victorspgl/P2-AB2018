@@ -58,9 +58,9 @@ def worst_random_vector(conFichero, num_elementos):
 
     configuracion = Vector(num_elementos)
 
-    for i in range(num_elementos, 0, -1):
+    for i in range(0, num_elementos):
 
-        elemento = i
+        elemento = num_elementos - i
 
         configuracion.setElement(i,elemento)
 
