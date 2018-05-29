@@ -1,16 +1,30 @@
+# Clase que representa un vector y contiene las funciones de ordenacion
+# Javier Corbalan y Victor Soria
+# 15 Mayo 2018
 
 import random
 
 class Vector:
 
+    """ Constructor
+    """
     def __init__(self, size):
         self.size = size
         self.elements = []
         for i in range(0,size):
             self.elements.append(0)
 
+    """
+        Modifica el elemento indexado por index, fijando el valor a element.
+    """
     def setElement(self, index, element):
         self.elements[index] = element
+
+    """
+        Sustituye la lista actual de elementos por la lista elements.    
+    """
+    def setAllElements(self, elements):
+        self.elements = elements
 
 
     """
@@ -43,6 +57,9 @@ class Vector:
         self.elements = lista_aux
         return resultado
 
+    """
+        Funcion de inmersion de sort1
+    """
     def sort1RE(self, izq, dch):
         if izq >= dch:
             return self.elements
@@ -62,6 +79,9 @@ class Vector:
         self.elements = lista_aux
         return resultado
 
+    """
+        Funcion de inmersion de sort2
+    """
     def sort2RE(self, izq, dch):
         if izq >= dch:
             return self.elements
@@ -72,6 +92,9 @@ class Vector:
             self.sort2RE(pivote_index + 1, dch)
             return self.elements
 
+    """
+        Funcion que selecciona el elemento n-esimo del vector resultante de ordenar elements, en tiempo lineal O(n)
+    """
     def select(self, izq, dch, n):
         while True:
             if izq == dch:
@@ -87,6 +110,9 @@ class Vector:
                 izq = pivotIndex + 1
 
 
+    """
+        Funcion que calcula la mediana de medianas
+    """
     def median(self, izq, dch):
         num_elem = dch - izq
         if num_elem < 5:
@@ -103,6 +129,9 @@ class Vector:
 
         return self.select(izq, izq + int((dch - izq) / 5), izq + int((dch - izq) / 10))
 
+    """
+        Algoritmo de ordenacion por insercion
+    """
     def insertionSort(self, izq, dch):
         i = 1
         while i < (dch - izq + 1):
@@ -125,12 +154,15 @@ class Vector:
         self.elements = lista_aux
         return resultado
 
+    """
+        Funcion de inmersion de sort3
+    """
     def sort3RE(self, izq, dch):
         if izq >= dch:
             return self.elements
         else:
             pivote_index = int(random.uniform(izq, dch))
-            pivote_index = self.particion(izq, dch, self.elements[pivote_index])
+            pivote_index = self.particion(izq, dch, pivote_index)
             self.sort3RE(izq, pivote_index - 1)
             self.sort3RE(pivote_index + 1, dch)
             return self.elements
